@@ -21,8 +21,8 @@ A Streamlit application that allows users to upload an image and automatically r
 
 1. Clone the repository
 ```bash
-git clone https://github.com/tyler-simons/BackgroundRemoval.git
-cd BackgroundRemoval
+git clone https://github.com/lambrese/appstreamlit.git
+cd appstreamlit
 ```
 
 2. Create a virtual environment (optional but recommended)
