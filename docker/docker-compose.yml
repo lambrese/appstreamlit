@@ -1,0 +1,9 @@
+services:
+  goals-streamlit:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ../images:/app/images
+    ports:
+      - "8501:8501"
