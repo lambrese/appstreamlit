@@ -1,27 +1,29 @@
-name: Deploy FastAPI App on Merge to Develop
+name: Deploy on main push
 
 on:
   push:
     branches:
-      - develop
+      - main  # Solo en la rama main
 
 jobs:
-  deploy:
-    name: Deploy on local server
-    runs-on: self-hosted
-
+  notify:
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Notify on Discord
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: "🚀 Nuevo commit en la rama `${{ github.ref_name }}` por ${{ github.actor }}: ${{ github.event.head_commit.message }}"
 
-    - name: Stop existing container
-      run: docker compose down || true
+  deploy:
+    runs-on: self-hosted  # Esto usa tu PC como runner
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Build and run new container
-      run: docker compose up -d --build
-
-    - name: Notify on Discord
-      uses: Ilshidur/action-discord@master
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        message: "🚀 FastAPI desplegado en servidor local tras merge en develop."
+      - name: Build and run Docker container
+        run: |
+          cd docker
+          docker compose down
+          docker compose up --build -d
