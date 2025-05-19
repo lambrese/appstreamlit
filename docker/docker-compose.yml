@@ -1,5 +1,5 @@
 services:
-  goals-streamlit:
+  bg-remove:
     build:
       context: ..
       dockerfile: docker/Dockerfile
